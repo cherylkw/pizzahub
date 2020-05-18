@@ -1,0 +1,77 @@
+{% extends "orders/layout.html" %}
+{% block body%}
+<br>
+<h4 style='caption-side:top;color:white; text-align: left'>&nbsp;My Cart</h4>
+<hr class="new1">
+<div class='p-3'>
+    <form class="form-signin" action="{% url 'updatecart' %}" method="post">
+
+        {% csrf_token %}
+        <table class="table table-borderless">
+            {% if Usercart.count > 0 %}
+            <thead>
+                <tr class="bordered">
+                    <th scope="col">Food Type</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            {% for mycart in Usercart %}
+            {% for item in mycart.item.all %}
+            <tbody>
+                <tr>
+                    {% load static %}
+                    <td scope="row">{{item.cat_id.name}} : {{item.name}}</td>
+                    {% if item.size_type == 'N' %}
+                    <td scope="row">One Size</td>
+                    {% elif item.size_type == 'S' %}    
+                    <td scope="row">Small</td>
+                    {% elif item.size_type == 'L' %}
+                    <td scope="row">Large</td>
+                    {% endif %}
+                    <td scope="row" class="quantity">
+                            <button class="plus-btn" type="button" data-plus="{{item.id}}">
+                            <img src="{% static 'plus.svg' %}" alt="" />
+                            </button>
+                            <input type="text" id="quan{{item.id}}" name="quan{{item.id}}" value="{{item.quantity}}">
+                            <button class="minus-btn" type="button" data-minus="{{item.id}}">
+                            <img src="{% static 'minus.svg' %}" alt="" />
+                            </button>
+                    </td>
+                    <td scope="row" id="price{{item.id}}">{{item.price}}</td>
+                    <td scope="row" id="sub{{item.id}}">${{item.subtotal}}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+                <tr class="bordered">
+                    <td scope="row"></td>
+                    <td scope="row"></td>
+                    <td scope="row"></td>
+                    <td scope="row"></td>
+                    <td scope="row"></td>
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td scope="row"></td>
+                    <td scope="row"></td>
+                    <td scope="row" align="right">Total : $</td>
+                    <td scope="row" id="total" class="total-price">{{Total}}</td>
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td scope="row"></td>
+                    <td scope="row"><a class="btn btn-primary btn-sm" href="{% url 'menu' 1 %}" role="button">Continue Shopping</a></td>
+                    <td scope="row"><button type="submit" class="btn btn-primary btn-sm">Update Cart</button></td>
+                    <td scope="row"><a class="btn btn-primary btn-sm" href="{% url 'checkout' %}" role="button">Checkout</a></td>
+                </tr>
+            </tbody>
+            {% else %}
+                <td align="center"><P>Shopping Bag Empty. Go Grab Your Food.</P></td>
+            {% endif %}
+        </table>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "orders/layout.html" %}
+{% block body%}
+<div class='p-3'>
+        <table class="table table-borderless">
+            <caption style='caption-side:top;color:white;font-size: 30px;text-align: center'>{{viewCat.name}}</caption>
+            {% if FoodWithSize.count > 0 %}
+            <thead>
+                <tr >
+                    <th scope="col">Name</th>
+                    <th scope="col"></th>
+                    <th scope="col">Small</th>
+                    <th scope="col">Large</th>
+                </tr>
+            </thead>
+                {% for food in FoodWithSize %}
+            <tbody>
+                <tr>
+                    {% load static %}
+                    <td scope="row">{{food.name}}</td>
+                        <td scope="row"></td>
+                        {%  if food.small_price == 0.00 %}
+                        <td scope="row">Not Available</td>
+                            {% else %}    
+                        <td scope="row">${{food.small_price}}&nbsp;&nbsp;<a class="btn btn-primary btn-sm" href="{% url 'addcart' viewCat.id food.id 'S' 'W' %}" role="button">Add</a></td>
+                        {%  endif %}
+                        <td scope="row">${{food.large_price}}&nbsp;&nbsp;<a  id="#cd-cart-trigger" class="btn btn-primary btn-sm" href="{% url 'addcart' viewCat.id food.id 'L' 'W' %}" role="button">Add</a></td>
+                </tr>
+            </tbody>
+                {% endfor %}
+            {% endif %}
+            {% if Food.count > 0 %}
+            <thead align="center">
+                <tr >
+                    <th scope="col"></th>
+                    {% ifnotequal viewCat.name "Toppings" %}
+                    <th scope="col">Price</th>
+                    {% else %}
+                    <th scope="col"></th>
+                    {% endifnotequal %}
+                </tr>
+            </thead>
+                {% for food in Food %}
+            <tbody  align="center">
+                <tr>
+                    {% load static %}
+                    <td scope="row">{{food.name}}</td>
+                    {% if viewCat.name != "Toppings" %}
+                    <td scope="row">${{food.price}}&nbsp;&nbsp;<a class="btn btn-primary btn-sm" href="{% url 'addcart' viewCat.id food.id 'N' 'F' %}" role="button">Add</a></td>
+                    {% else %}
+                    <td scope="row"><a class="btn btn-primary btn-sm" href="{% url 'addcart' viewCat.id food.id 'N' 'F' %}" role="button">Add</a></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+                {% endfor %}
+            {% endif %}
+        </table>    
+{% endblock %}

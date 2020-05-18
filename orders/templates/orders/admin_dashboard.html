@@ -1,0 +1,117 @@
+{% extends "orders/layout.html" %}
+{% block body%}
+  <br>
+  <h4 style='caption-side:top;color:white; text-align: left'>&nbsp;Customer Orders</h4>
+  <hr class="new1">
+      <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link {{active1}}" href="{% url 'admin_dashboard' 'Paid' %}">New Order {{ totalorder }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{active2}}" href="{% url 'admin_dashboard' 'Completed' %}">Completed Order {{ totalorder1 }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{active3}}" href="{% url 'admin_dashboard' 'All' %}">All {{ totalorder2 }}</a>
+          </li>
+        </ul>
+  {% if UserOrder.count > 0 %}
+  <br>
+  <div class="container">
+      {% if type == 'N' %}
+      {%  for record in UserOrder %}
+      <div class="row">
+        <div class="col">
+          <a href="{% url 'viewitems' record.id 'A' %}">{{ record.user_order_number }}</a>
+        </div>
+        <div class="col" align="left">
+          {{ record.user_order_date }}
+        </div>
+        <div class="col" align="left">
+          {% if record.status == 'Completed' %}
+          {{   record.user_order_complete_date }}
+          {% else %}
+          <a href="{% url 'completeorder' record.id %}">Complete ? </a>
+          {% endif %}
+        </div>
+      </div>
+      <br>
+      {%  endfor %}
+      <hr class="new1">
+      {% endif %}
+      {% if ItemList.count > 0%}
+      {%  for items in ItemList%}
+      <div class="row">        
+        <div class="col"><h6>Order {{ ordernumber }} Summary :</h6>
+        </div>
+        {% if orderstatus == 'Paid' %}
+        <div class="col"><a href="{% url 'completeorder' orderid %}">Complete ? </a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="row">
+        <div class="col">Customer : {{ customer }}</div>
+      </div>
+      <div class="row">        
+          <div class="col">Status : {{ orderstatus }}</div>
+          <div class="col">{{ orderdate}} </div>
+              {% if orderstatus == 'Completed' %}
+          <div class="col">{{ completedate }}</div>
+              {% endif %}
+      </div>
+      <br>
+      <div class="row">        
+        <div class="col">
+          <table class="table table-borderless">
+              <thead>
+                  <tr class="bordered">
+                      <th scope="col">Food Type</th>
+                      <th scope="col">Size</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Unit</th>
+                      <th scope="col">Price</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {%     for item in items.item.all %}
+                  <tr>
+                      <td scope="row">{{item.cat_id.name}} : {{item.name}}</td>
+                      {% if item.size_type == 'N' %}
+                      <td scope="row">One Size</td>
+                      {% elif item.size_type == 'S' %}    
+                      <td scope="row">Small</td>
+                      {% elif item.size_type == 'L' %}
+                      <td scope="row">Large</td>
+                      {% endif %}
+                      <td scope="row" class="quantity">{{item.quantity}}</td>
+                      <td scope="row" id="price{{item.id}}">${{item.price}}</td>
+                      <td scope="row" id="sub{{item.id}}">${{item.subtotal}}</td>
+                  </tr>
+                  {% endfor %}
+                  <tr class="bordered">
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                  </tr>
+                  <tr>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row" align="right">Total :</td>
+                      <td scope="row" id="total" class="total-price">${{items.get_cart_total}}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+      {%  endfor %}
+      {% endif %}
+  </div>
+  {% else %}
+  <br><br>
+  <div align="center"><h4>No Orders</h4></div>
+  <br><br>
+  {% endif %}
+  <br>
+{% endblock %}

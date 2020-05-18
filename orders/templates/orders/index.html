@@ -1,0 +1,22 @@
+{% extends "orders/layout.html" %}
+{% include 'orders/messages.html' %}
+{% block body%}
+        <br>
+        <div class=' text-center p-5 '>
+                <h2 class='text-info'>Welcome To Pizza Hub</h2>
+        </div>
+        <div>
+                <ul class="nav justify-content-center">
+                        <li class="nav-item">
+                        <a class="p-3 mb-2 bg-primary text-white" href="{% url 'login' %}" role="button">Login</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="p-3 mb-2 bg-info text-white" href="{% url 'register' %}" role="button">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="p-3 mb-2 bg-success text-white" href="{% url 'menu' 1 %}" role="button">View Menu</a>
+                        </li>
+                </ul>
+        </div>
+        <br><br><br>
+{% endblock %}

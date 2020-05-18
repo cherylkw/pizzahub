@@ -13,7 +13,7 @@ Pizza Hub is a **Django project** , an ecommerce application for handling a pizz
 - **Placing an Order**: Once there is at least one item in a user’s shopping cart, they should be able to place an order, whereby the user is asked to confirm the items in the shopping cart, and the total before placing an order.
 - **Viewing Orders**: Site administrators should have access to a page where they can view any orders that have already been placed.
 - **Admin Panel**: Allowing site administrators to mark orders as complete and allowing users to see the status of their pending or completed orders.
-- **Checkout Method**: Integrating with the Stripe API to allow users to actually use a credit card to make a purchase during checkout.
+- **Checkout Method**: Integrating with the **Stripe API** to allow users to actually use a credit card to make a purchase during checkout.
 
 ## Functions functionality in views.py
 
@@ -104,4 +104,4 @@ https://youtu.be/rem3EXd1p3c
 - Use testing card number **4242 4242 4242 4242** to perform the testing
 
 ## Author : Cheryl Kwong  Email : cherylkwong@gmail.com
-## Project developed by : Python, Django, Javascript, CSS, HTML, SQLite3
+## Project developed by : Python, Django, Javascript, CSS, HTML, SQLite3, Stripe
